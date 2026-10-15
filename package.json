@@ -1,0 +1,18 @@
+{
+  "name": "reframe-studios-website",
+  "version": "1.0.0",
+  "description": "Reframe Studios - Content and storytelling studio built around private markets",
+  "scripts": {
+    "dev": "npx -y serve . -p 3000",
+    "start": "npx -y serve . -p 3000"
+  },
+  "keywords": [
+    "framer",
+    "reframe",
+    "private-markets",
+    "storytelling",
+    "lofty-lab"
+  ],
+  "author": "Reframe Studios",
+  "license": "MIT"
+}

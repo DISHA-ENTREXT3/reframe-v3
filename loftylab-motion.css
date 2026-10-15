@@ -1,0 +1,155 @@
+/* ==========================================================================
+   LOFTYLAB COMPLETE MOTION SYSTEM STYLESHEET (loftylab-motion.css)
+   Compositor-only GPU animations, spring curves & micro-interactions.
+   ========================================================================== */
+
+:root {
+  --ease-lofty: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 1. Masked Motion Text Reveal System */
+.lofty-line-mask {
+  overflow: hidden;
+  display: block;
+  padding-bottom: 4px;
+  line-height: inherit;
+}
+
+.lofty-reveal-text {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform: translate3d(0, 115%, 0);
+  opacity: 0;
+  animation: loftyMaskReveal 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered delays on page load (Hero & Subpage Headers) */
+.lofty-line-mask:nth-of-type(1) .lofty-reveal-text { animation-delay: 80ms; }
+.lofty-line-mask:nth-of-type(2) .lofty-reveal-text { animation-delay: 200ms; }
+.lofty-line-mask:nth-of-type(3) .lofty-reveal-text { animation-delay: 320ms; }
+.lofty-line-mask:nth-of-type(4) .lofty-reveal-text { animation-delay: 440ms; }
+.lofty-line-mask:nth-of-type(5) .lofty-reveal-text { animation-delay: 560ms; }
+
+/* Scroll-Triggered Motion Text Reveal */
+.reveal-on-scroll .lofty-reveal-text {
+  animation: none;
+  transform: translate3d(0, 115%, 0);
+  opacity: 0;
+  transition: transform 750ms cubic-bezier(0.16, 1, 0.3, 1), opacity 750ms ease;
+}
+
+.reveal-on-scroll.is-visible .lofty-reveal-text {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.reveal-on-scroll.is-visible .lofty-line-mask:nth-of-type(1) .lofty-reveal-text { transition-delay: 60ms; }
+.reveal-on-scroll.is-visible .lofty-line-mask:nth-of-type(2) .lofty-reveal-text { transition-delay: 180ms; }
+.reveal-on-scroll.is-visible .lofty-line-mask:nth-of-type(3) .lofty-reveal-text { transition-delay: 300ms; }
+.reveal-on-scroll.is-visible .lofty-line-mask:nth-of-type(4) .lofty-reveal-text { transition-delay: 420ms; }
+
+@keyframes loftyMaskReveal {
+  0% {
+    transform: translate3d(0, 115%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+/* 2. Seamless Infinite Marquee Ticker */
+.lofty-marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.lofty-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: loftyMarqueeLoop 24s linear infinite;
+}
+
+.lofty-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes loftyMarqueeLoop {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* 3. Bento 3D Tilt & Specular Cursor Spotlight */
+.lofty-tilt-card {
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 150ms ease-out, border-color 200ms ease;
+}
+
+.lofty-tilt-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(204, 255, 0, 0.15),
+    transparent 70%
+  );
+}
+
+.lofty-tilt-card:hover::before {
+  opacity: 1;
+}
+
+/* 4. Magnetic Button Physics */
+.lofty-magnetic-btn {
+  will-change: transform;
+  transition: transform 350ms var(--ease-spring-bounce);
+}
+
+.lofty-magnetic-btn:active {
+  transform: scale(0.95);
+}
+
+/* 5. Smooth Expanding Accordion Drawer (CSS Grid) */
+.lofty-accordion-drawer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 350ms var(--ease-lofty);
+}
+
+.lofty-accordion-drawer.is-open {
+  grid-template-rows: 1fr;
+}
+
+.lofty-accordion-drawer > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.lofty-morph-icon {
+  transition: transform 350ms var(--ease-lofty);
+}
+
+.lofty-morph-icon.is-open {
+  transform: rotate(45deg);
+}
+
+/* 6. Sticky Section Stacking */
+.lofty-sticky-stack {
+  position: sticky;
+  top: 100px;
+  transform-origin: center top;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: transform 200ms ease-out;
+}
